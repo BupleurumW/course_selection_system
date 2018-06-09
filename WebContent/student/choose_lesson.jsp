@@ -11,15 +11,23 @@
 <body>  
   
 <%  
-    String lessonNo = request.getParameter("lessonNo");
 	String username = (String)session.getAttribute("username");
-// 	out.print(lessonNo);
 	Class.forName("com.mysql.jdbc.Driver");
 	Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson?characterEncoding=UTF-8","root","");
 	Statement st = ct.createStatement();
-	int count = st.executeUpdate("insert into sc values('"+username+"','"+lessonNo+"',-1)");
+	String[] list = request.getParameterValues("checklist");
+	if(list != null){
+		int chooseCount = 0;
+		for(int i=0;i<list.length;i++){
+			chooseCount += st.executeUpdate("insert into sc values('"+username+"','"+list[i]+"',-1)");
+		}
+		response.sendRedirect("lesson.jsp?chooseCount="+chooseCount+"");
+	}else{
+		String lessonNo = request.getParameter("lessonNo");
+		int chooseCount = st.executeUpdate("insert into sc values('"+username+"','"+lessonNo+"',-1)");
+		response.sendRedirect("lesson.jsp?chooseCount="+chooseCount+"");
+	}
 	ct.close();
-	response.sendRedirect("lesson.jsp?count="+count+"");
 %>  
 </body>  
 </html>

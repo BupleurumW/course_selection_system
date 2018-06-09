@@ -7,13 +7,13 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">  
-    <title>选课</title>
+    <title>管理课程信息</title>
     <meta name="description" content="">
     <meta name="author" content="templatemo">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700' rel='stylesheet' type='text/css'>
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/templatemo-style.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/templatemo-style.css" rel="stylesheet">
   </head>
 
   <body>  
@@ -23,44 +23,43 @@
         <header class="templatemo-site-header">
           <div class="square"></div>
           <%
-//     		String username = request.getParameter("username");
           	String username = (String)session.getAttribute("username");
-    		Class.forName("com.mysql.jdbc.Driver");    
-    		Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");      
-    		Statement st = ct.createStatement();
-    		ResultSet rs = st.executeQuery("select * from info where username ='"+username+"'");
-    		String nickname = null;
-    		String dept = null;
-    		int age;
-    		String in_year = null;
-    		if(rs.next()){
-    			nickname = rs.getString("nickname");
-    			dept = rs.getString("dept");
-    			age = Integer.parseInt(rs.getString("age"));
-    			in_year = rs.getString("in_year");
-    		}
-    		ct.close();
+          	String addCount = request.getParameter("addCount");
+          	if(addCount != null){
+          		if(!addCount.equals("0")){
+    				out.print("<script>alert('增加课程信息成功！');</script>");
+    			}else{
+    				out.print("<script>alert('增加课程信息失败！');</script>");
+    			}
+          	}
+			String updateCount = request.getParameter("updateCount");
+			if(updateCount != null){
+				if(!updateCount.equals("0")){
+					out.print("<script>alert('修改课程信息成功！');</script>");
+				}else{
+					out.print("<script>alert('修改课程信息失败！');</script>");
+				}
+			}
     	  %>
-          <h1>欢迎<%= nickname %></h1>
+          <h1>欢迎<%= username %></h1>
         </header>
         <div class="mobile-menu-icon">
             <i class="fa fa-bars"></i>
           </div>
         <nav class="templatemo-left-nav">          
           <ul>
-            <li><a href="index.jsp"><i class="fa fa-home fa-fw"></i>个人信息</a></li>
-            <li><a href="#" class="active"><i class="fa fa-bar-chart fa-fw"></i>选课</a></li>
-            <li><a href="lesson.jsp"><i class="fa fa-map-marker fa-fw"></i>修读课程</a></li>
+            <li><a href="index.jsp"><i class="fa fa-home fa-fw"></i>管理学生信息</a></li>
+            <li><a href="#" class="active"><i class="fa fa-bar-chart fa-fw"></i>管理课程信息</a></li>
             <li><a href="reviseInfo.jsp"><i class="fa fa-users fa-fw"></i>修改信息</a></li>
-            <li><a href="login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
+            <li><a href="../login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
           </ul>  
         </nav>
       </div>
       <!-- Main content --> 
       <div class="templatemo-content col-1 light-gray-bg">
-      	<form class="templatemo-search-form" action="choose.jsp?searchFlag=1">
+      	<form class="templatemo-search-form" action="searchCourse.jsp">
           <div class="input-group">
-              <button type="submit" class="fa fa-search"></button>
+              <button onClick="setSession()" class="fa fa-search"></button>
               <input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">           
           </div>
         </form>
@@ -68,9 +67,9 @@
       	//定义分页变量
       	int pageSize = 8,pageNow = 1,pageCount = 0,rowCount = 0;
       	Class.forName("com.mysql.jdbc.Driver");
-      	ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");
-      	st = ct.createStatement();
-      	rs = st.executeQuery("select count(*) from lesson where lessonNo not in (select lessonNo from sc where username="+username+")");
+      	Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");
+      	Statement st = ct.createStatement();
+      	ResultSet rs = st.executeQuery("select count(*) from lesson");
       	if(rs.next()){
       		rowCount = rs.getInt(1);
       	}
@@ -109,6 +108,10 @@
       		}
       	}
       %>
+      	<div class="templatemo-content-widget white-bg">
+            <h2 class="margin-bottom-10">是否增加课程信息</h2>
+           	<p class="margin-bottom-0">Yes goes to <a href="add_c.jsp?add=1">add course</a>.</p>              
+      	</div>
         <div class="templatemo-content-container">
           <div class="templatemo-content-widget no-padding">
             <div class="panel panel-default table-responsive">
@@ -116,18 +119,17 @@
               <table class="table table-striped table-bordered templatemo-user-table">
                 <thead>
                   <tr>
-                    <td><a href="" class="white-text templatemo-sort-by"> <span class="caret"></span></a></td>
+                    <td><a href="" class="white-text templatemo-sort-by">No.<span class="caret"></span></a></td>
                     <td><a href="" class="white-text templatemo-sort-by">课程号<span class="caret"></span></a></td>
                     <td><a href="" class="white-text templatemo-sort-by">课程名<span class="caret"></span></a></td>
                     <td><a href="" class="white-text templatemo-sort-by">课程学分<span class="caret"></span></a></td>
-                    <td>选课</td>
+                    <td></td>
+                    <td></td>
                   </tr>
                 </thead>
                 <tbody>
                 <%
-            		rs = st.executeQuery("select * from lesson where lessonNo not in "+
-            	  						"(select lessonNo from sc where username="+
-          							username+") limit "+pageSize*(pageNow-1)+","+pageSize);
+            		rs = st.executeQuery("select * from lesson limit "+pageSize*(pageNow-1)+","+pageSize);
           			int i = 1; 
         			while(rs.next()){
         			%>
@@ -136,7 +138,8 @@
            			<td><%= rs.getString("lessonNo") %></td>
            			<td><%= rs.getString("lessonName") %></td>
            			<td><%= rs.getString("credit") %></td>
-           			<td><a href="choose_lesson.jsp?lessonNo=<%= rs.getString("lessonNo") %>" onclick="return confirm('确认选课？');" class="templatemo-edit-btn" >选课</a></td>
+           			<td><a href="revise_c.jsp?lessonNo=<%= rs.getString("lessonNo") %>" class="templatemo-edit-btn" >修改</a></td>
+           			<td><a href="delete_c.jsp?lessonNo=<%= rs.getString("lessonNo") %>" onClick="return confirm('确定删除该课程(包括选该课的所有成绩信息)?');" class="templatemo-edit-btn" >删除</a></td>
        				</tr>
         			<%
         		  }
@@ -149,19 +152,19 @@
           </div>    
           <div class="pagination-wrap">
           	<ul class="pagination">
-              <li><a href="choose.jsp?start=1&pageNow=<%= pageNow %>">首页</a></li>
-              <li><a href="choose.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>">◀</a></li>
+              <li><a href="course.jsp?start=1&pageNow=<%= pageNow %>">首页</a></li>
+              <li><a href="course.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>">◀</a></li>
            	  <%
            	  	int j; 
            	  	for(j=start;j<=end;j++){
            	  		if(j == pageNow){
            	  			%>
-           	  			<li class="active"><a href="choose.jsp?pageNow=<%= j %>"><%= j %><span class="sr-only">(current)</span></a></li>
+           	  			<li class="active"><a href="course.jsp?pageNow=<%= j %>"><%= j %><span class="sr-only">(current)</span></a></li>
            	  			<%
            	  		}
            	  		else{
            	  			%>
-       	  				<li><a href="choose.jsp?pageNow=<%= j %>&start=<%= start %>"><%= j %></a></li>
+       	  				<li><a href="course.jsp?pageNow=<%= j %>&start=<%= start %>"><%= j %></a></li>
        	  				<%
            	  		}
            	  	}
@@ -171,8 +174,8 @@
               	if(pageCount < 5)	temp = 1;
               	else temp = pageCount-4;
               %>
-              <li><a href="choose.jsp?start=<%= start+1 %>&pageNow=<%= pageNow %>">▶</a></li>
-              <li><a href="choose.jsp?start=<%= temp %>&pageNow=<%= pageNow %>">末页</a></li>
+              <li><a href="course.jsp?start=<%= start+1 %>&pageNow=<%= pageNow %>">▶</a></li>
+              <li><a href="course.jsp?start=<%= temp %>&pageNow=<%= pageNow %>">末页</a></li>
             </ul>
           </div>          
         </div>

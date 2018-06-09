@@ -12,9 +12,9 @@
     <meta name="description" content="">
     <meta name="author" content="templatemo">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700' rel='stylesheet' type='text/css'>
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/templatemo-style.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/templatemo-style.css" rel="stylesheet">
 
   </head>
   <body>  
@@ -25,6 +25,14 @@
           <div class="square"></div>
           <%
 //     		String username = request.getParameter("username");
+          	String update_info = request.getParameter("update_info");
+			if(update_info != null){
+				if(update_info.equals("1")){
+					out.print("<script>alert('修改信息成功！');</script>");
+				}else{
+					out.print("<script>alert('修改信息失败！');</script>");
+				}
+			}
           	String username = (String)session.getAttribute("username");
     		Class.forName("com.mysql.jdbc.Driver");    
     		Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");      
@@ -33,7 +41,7 @@
     		String nickname = null;
     		String dept = null;
     		String sex = null;
-    		int age;
+    		String age = null;
     		String in_year = null;
     		String birth = null;
     		String sno = null;
@@ -41,10 +49,9 @@
     		if(rs.next()){
     			nickname = rs.getString("nickname");
     			dept = rs.getString("dept");
-    			sno = rs.getString("sno");
     			cno = rs.getString("cno");
     			sex = rs.getString("sex");
-    			age = Integer.parseInt(rs.getString("age"));
+    			age = rs.getString("age");
     			in_year = rs.getString("in_year");
     			birth = rs.getString("birth");
     		}
@@ -66,7 +73,7 @@
             <li><a href="lesson.jsp"><i class="fa fa-map-marker fa-fw"></i>修读课程</a></li>
 <!--             <li><a href="#"><i class="fa fa-users fa-fw"></i>选课记录</a></li> -->
             <li><a href="reviseInfo.jsp"><i class="fa fa-users fa-fw"></i>修改信息</a></li>
-            <li><a href="login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
+            <li><a href="../login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
           </ul>  
         </nav>
       </div>
@@ -77,7 +84,7 @@
               <div class="media margin-bottom-30">
                 <div class="media-left padding-right-25">
                   <a href="">
-                    <img class="media-object img-circle templatemo-img-bordered" src="images/person.jpg" alt="Sunset">
+                    <img class="media-object img-circle templatemo-img-bordered" src="../images/person.jpg" alt="Sunset">
                   </a>
                 </div>
                 <div class="media-body">
@@ -101,7 +108,7 @@
                     <tr>
                       <td><div class="circle orange-bg"></div></td>
                       <td>学号</td>
-                      <td><%= sno %></td>                    
+                      <td><%= username  %></td>                    
                     </tr> 
                     <tr>
                       <td><div class="circle green-bg"></div></td>

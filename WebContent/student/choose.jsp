@@ -11,9 +11,9 @@
     <meta name="description" content="">
     <meta name="author" content="templatemo">
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700' rel='stylesheet' type='text/css'>
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/templatemo-style.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/templatemo-style.css" rel="stylesheet">
   </head>
 
   <body>  
@@ -24,6 +24,7 @@
           <div class="square"></div>
           <%
 //     		String username = request.getParameter("username");
+//           	session.removeAttribute("searchInput");
           	String username = (String)session.getAttribute("username");
     		Class.forName("com.mysql.jdbc.Driver");    
     		Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");      
@@ -52,15 +53,15 @@
             <li><a href="#" class="active"><i class="fa fa-bar-chart fa-fw"></i>选课</a></li>
             <li><a href="lesson.jsp"><i class="fa fa-map-marker fa-fw"></i>修读课程</a></li>
             <li><a href="reviseInfo.jsp"><i class="fa fa-users fa-fw"></i>修改信息</a></li>
-            <li><a href="login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
+            <li><a href="../login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
           </ul>  
         </nav>
       </div>
       <!-- Main content --> 
       <div class="templatemo-content col-1 light-gray-bg">
-      	<form class="templatemo-search-form">
+      	<form class="templatemo-search-form" action="searchCourse.jsp">
           <div class="input-group">
-              <button class="fa fa-search"></button>
+              <button onClick="setSession()" class="fa fa-search"></button>
               <input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">           
           </div>
         </form>
@@ -110,13 +111,20 @@
       	}
       %>
         <div class="templatemo-content-container">
+        <p class="margin-bottom-5">
+        Click to submit all courses：
+        <button type="button" onClick="submitCourse()" class="templatemo-blue-button">submit</button>
+        </p>
           <div class="templatemo-content-widget no-padding">
             <div class="panel panel-default table-responsive">
-              <form name="myform">
+              <form name="myform" action="choose_lesson.jsp">
               <table class="table table-striped table-bordered templatemo-user-table">
                 <thead>
                   <tr>
-                    <td><a href="" class="white-text templatemo-sort-by"> <span class="caret"></span></a></td>
+                    <td>
+           				<input type="checkbox" id="all" onclick="checkAll()">
+           				<label for="all" class="font-weight-400"><span></span>全选</label>
+           			</td>
                     <td><a href="" class="white-text templatemo-sort-by">课程号<span class="caret"></span></a></td>
                     <td><a href="" class="white-text templatemo-sort-by">课程名<span class="caret"></span></a></td>
                     <td><a href="" class="white-text templatemo-sort-by">课程学分<span class="caret"></span></a></td>
@@ -132,7 +140,10 @@
         			while(rs.next()){
         			%>
         			<tr>
-           			<td><%= i++ %></td>
+           			<td>
+           				<input type="checkbox" id="<%= i %>" name="checklist" value="<%= rs.getString("lessonNo") %>">
+           				<label for="<%= i %>" class="font-weight-400"><span></span><%= i++ %></label>
+           			</td>
            			<td><%= rs.getString("lessonNo") %></td>
            			<td><%= rs.getString("lessonName") %></td>
            			<td><%= rs.getString("credit") %></td>
@@ -180,6 +191,31 @@
     </div>
     
     <!-- JS -->
+    <script>
+    	function checkAll(){
+    		var all=document.getElementById('all');//获取到点击全选的那个复选框的id  
+    		var one=document.getElementsByName('checklist');//获取到复选框的名称  
+    		for(var i=0;i<one.length;i++){  
+    			one[i].checked=all.checked; //直接赋值不就行了嘛  
+    		}  
+    	}  
+    	function submitCourse(){
+    		var one=document.getElementsByName('checklist');
+    		var i;
+    		for(i=0;i<one.length;i++){
+    			if(one[i].checked == true){
+    				break;
+    			}
+    		}
+    		if(i < one.length){ //有选中
+    			if(confirm('确认选课？')){
+    				document.myform.submit();
+    			}
+    		}else{
+    			alert("至少选一门课后再提交选课！");
+    		}
+    	}
+    </script>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->
     <script type="text/javascript" src="js/templatemo-script.js"></script>      <!-- Templatemo Script -->
     <script>

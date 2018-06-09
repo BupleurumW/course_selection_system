@@ -18,12 +18,16 @@
     Class.forName("com.mysql.jdbc.Driver");    
     Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");      
     Statement st = ct.createStatement();
-    ResultSet rs = st.executeQuery("select passwd from users where username ='"+u+"'");
+    ResultSet rs = st.executeQuery("select * from users where username ='"+u+"'");
     if(rs.next()){
-    	if(rs.getString(1).equals(p)){
-    			session.setAttribute("username", u); 
-//     			response.sendRedirect("index.jsp?username="+u);	
-    			response.sendRedirect("index.jsp");	
+    	if(rs.getString("passwd").equals(p)){
+    			session.setAttribute("username", u);
+    			int i = Integer.parseInt(rs.getString("grade"));
+    			if(i == 1){
+    				response.sendRedirect("manager/index.jsp");
+    			}else{
+    				response.sendRedirect("student/index.jsp");	
+    			}	
     	}else{
     		response.sendRedirect("login.jsp?error=1");
 //     		out.print("密码错误!");

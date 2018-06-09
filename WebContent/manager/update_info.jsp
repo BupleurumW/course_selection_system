@@ -29,7 +29,7 @@
     	    	st.executeUpdate("update users set passwd=N'"+newPwd+"' where username ='"+u+"'");
 //     	    	st = ct.createStatement();
     	    	st.executeUpdate("update info set nickname=N'"+nickname+"' where username ='"+u+"'");
-    			response.sendRedirect("index.jsp");	
+    			response.sendRedirect("index.jsp?update_info=1");	
     	}else{
     		response.sendRedirect("reviseInfo.jsp?error=1");
 //     		out.print("密码错误!");

@@ -12,9 +12,9 @@
     <meta name="author" content="templatemo">
 
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300,400italic,700' rel='stylesheet' type='text/css'>
-    <link href="css/font-awesome.min.css" rel="stylesheet">
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/templatemo-style.css" rel="stylesheet">
+    <link href="../css/font-awesome.min.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../css/templatemo-style.css" rel="stylesheet">
 
   </head>
   <body>  
@@ -25,6 +25,14 @@
           <div class="square"></div>
           <%
 //     		String username = request.getParameter("username");
+          	String chooseCount = request.getParameter("chooseCount");
+          	if(chooseCount != null){
+          		if(!chooseCount.equals("0")){
+          			out.print("<script>alert('选课成功！');</script>");
+          		}else{
+          			out.print("<script>alert('选课失败，请重选！');</script>");
+          		}
+          	}
           	String username = (String)session.getAttribute("username");
     		Class.forName("com.mysql.jdbc.Driver");    
     		Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");      
@@ -54,7 +62,7 @@
             <li><a href="#" class="active"><i class="fa fa-map-marker fa-fw"></i>修读课程</a></li>
 <!--             <li><a href="#"><i class="fa fa-users fa-fw"></i>选课记录</a></li> -->
             <li><a href="reviseInfo.jsp"><i class="fa fa-users fa-fw"></i>修改信息</a></li>
-            <li><a href="login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
+            <li><a href="../login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
           </ul>  
         </nav>
       </div>
