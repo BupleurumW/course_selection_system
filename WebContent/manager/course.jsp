@@ -57,17 +57,17 @@
       </div>
       <!-- Main content --> 
       <div class="templatemo-content col-1 light-gray-bg">
-      	<form class="templatemo-search-form" action="searchCourse.jsp">
-          <div class="input-group">
-              <button onClick="setSession()" class="fa fa-search"></button>
-              <input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">           
-          </div>
-        </form>
+<!--       	<form class="templatemo-search-form" action="searchCourse.jsp"> -->
+<!--           <div class="input-group"> -->
+<!--               <button class="fa fa-search"></button> -->
+<!--               <input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">            -->
+<!--           </div> -->
+<!--         </form> -->
       <%
       	//定义分页变量
       	int pageSize = 8,pageNow = 1,pageCount = 0,rowCount = 0;
       	Class.forName("com.mysql.jdbc.Driver");
-      	Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");
+      	Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson?characterEncoding=UTF-8","root","");
       	Statement st = ct.createStatement();
       	ResultSet rs = st.executeQuery("select count(*) from lesson");
       	if(rs.next()){
@@ -108,6 +108,18 @@
       		}
       	}
       %>
+      <div class="templatemo-content-widget white-bg">
+        <form name="myform" action="search_c.jsp">
+        	<input type="hidden" name="search_flag" id="sf" value="">
+        	<input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">
+        <div text-align="left">
+          	<ul class="search_tab">
+  				<li><button type="submit" class="templatemo-edit-btn" id="CNo" onClick="searchStu(this)">按课程号搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="CName" onClick="searchStu(this)">按课程名搜索</button></li>
+			</ul>
+        </div> 
+        </form>
+      </div>  
       	<div class="templatemo-content-widget white-bg">
             <h2 class="margin-bottom-10">是否增加课程信息</h2>
            	<p class="margin-bottom-0">Yes goes to <a href="add_c.jsp?add=1">add course</a>.</p>              
@@ -183,6 +195,20 @@
     </div>
     
     <!-- JS -->
+    <script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript">
+			
+			function searchStu(obj){
+			 if(obj.id=='CNo') {
+				 document.getElementById("sf").value = "1";
+				   document.myform.submit();
+			 }else if(obj.id=='CName'){
+				 document.getElementById("sf").value = "2";
+				 document.myform.submit();
+			 }  
+		}
+			
+		</script>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->
     <script type="text/javascript" src="js/templatemo-script.js"></script>      <!-- Templatemo Script -->
     <script>

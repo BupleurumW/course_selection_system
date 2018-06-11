@@ -34,7 +34,7 @@
     if(addflag == 1){
     	int addCount = st.executeUpdate("insert into info values('"+stu_no+"','"+nickname+"','"+cno+"','"
     									+sex+"','"+age+"','"+dept+"','"+in_year+"','"+birth+"','"+grade+"')");
-    	addCount += st.executeUpdate("insert into users values('"+stu_no+"','"+nickname+"','"+grade+"')");
+    	addCount += st.executeUpdate("insert into users values('"+stu_no+"','"+"1"+"','"+grade+"')");
 		response.sendRedirect("index.jsp?updateCount="+addCount);
     }else{
     	int updateCount = st.executeUpdate("update info set nickname='"+nickname+"',cno='"+cno+

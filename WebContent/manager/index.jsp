@@ -14,6 +14,7 @@
     <link href="../css/font-awesome.min.css" rel="stylesheet">
     <link href="../css/bootstrap.min.css" rel="stylesheet">
     <link href="../css/templatemo-style.css" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="../css/style.css" />
   </head>
 
   <body>  
@@ -129,6 +130,18 @@
       	}
       %>
       	<div class="templatemo-content-widget white-bg">
+        <form name="myform" action="search_stu.jsp">
+        	<input type="hidden" name="search_flag" id="sf" value="">
+        	<input type="text" class="form-control" placeholder="搜索学生" name="searchInput" id="srch-term">
+        <div text-align="left">
+          	<ul class="search_tab">
+  				<li><button type="submit" class="templatemo-edit-btn" id="SNo" onClick="searchStu(this)">按学号搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="SName" onClick="searchStu(this)">按姓名搜索</button></li>
+			</ul>
+        </div> 
+        </form>
+  		</div>
+      	<div class="templatemo-content-widget white-bg">
             <h2 class="margin-bottom-10">是否增加学生的信息</h2>
            	<p class="margin-bottom-0">Yes goes to <a href="add_stu.jsp?add=1">add student</a>.</p>              
       	</div>
@@ -201,13 +214,21 @@
     </div>
     
     <!-- JS -->
-    <script>
-    	function setSession(){
-    		<%
-//     			session.setAttribute("searchInput", )
-    		%>
-    	}
-    </script>
+    <script type="text/javascript" src="js/jquery.js"></script>
+		<script type="text/javascript">
+			
+			function searchStu(obj){
+				 if(obj.id=='SNo') {
+					 document.getElementById("sf").value = "1";
+					   alert(document.myform.search_flag.value);
+					   document.myform.submit();
+				 }else if(obj.id=='SName'){
+					 document.getElementById("sf").value = "2";
+					 document.myform.submit();
+				 }  
+			}
+			
+		</script>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->
     <script type="text/javascript" src="js/templatemo-script.js"></script>      <!-- Templatemo Script -->
     <script>
