@@ -33,12 +33,10 @@
     		String nickname = null;
     		String dept = null;
     		int age;
-    		String in_year = null;
     		if(rs.next()){
     			nickname = rs.getString("nickname");
     			dept = rs.getString("dept");
     			age = Integer.parseInt(rs.getString("age"));
-    			in_year = rs.getString("in_year");
     		}
     		ct.close();
     	  %>
@@ -59,12 +57,18 @@
       </div>
       <!-- Main content --> 
       <div class="templatemo-content col-1 light-gray-bg">
-      	<form class="templatemo-search-form" action="searchCourse.jsp">
-          <div class="input-group">
-              <button onClick="setSession()" class="fa fa-search"></button>
-              <input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">           
-          </div>
+      	<div class="templatemo-content-widget white-bg">
+        <form name="myform2" action="searchCourse.jsp">
+        	<input type="hidden" name="search_flag" id="sf" value="">
+        	<input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">
+        <div text-align="left">
+          	<ul class="search_tab">
+  				<li><button type="submit" class="templatemo-edit-btn" id="CNo" onClick="searchStu(this)">按课程号搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="CName" onClick="searchStu(this)">按课程名搜索</button></li>
+			</ul>
+        </div> 
         </form>
+        </div>
       <%
       	//定义分页变量
       	int pageSize = 8,pageNow = 1,pageCount = 0,rowCount = 0;
@@ -215,6 +219,16 @@
     			alert("至少选一门课后再提交选课！");
     		}
     	}
+    	function searchStu(obj){
+			 if(obj.id=='CNo') {
+				 document.getElementById("sf").value = "1";
+				   alert(document.myform.search_flag.value);
+				   document.myform2.submit();
+			 }else if(obj.id=='CName'){
+				 document.getElementById("sf").value = "2";
+				 document.myform2.submit();
+			 }  
+		}
     </script>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->
     <script type="text/javascript" src="js/templatemo-script.js"></script>      <!-- Templatemo Script -->

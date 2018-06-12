@@ -18,7 +18,7 @@
     Class.forName("com.mysql.jdbc.Driver");    
     Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");      
     Statement st = ct.createStatement();
-    ResultSet rs = st.executeQuery("select * from users where username ='"+u+"'");
+    ResultSet rs = st.executeQuery("select * from info where username ='"+u+"'");
     if(rs.next()){
     	if(rs.getString("passwd").equals(p)){
     			session.setAttribute("username", u);

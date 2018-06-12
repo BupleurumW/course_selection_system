@@ -31,13 +31,10 @@
     		Statement st = ct.createStatement();
     		ResultSet rs = st.executeQuery("select * from info where username ='"+username+"'");
     		String nickname = null;
+    		String passwd = null;
     		if(rs.next()){
     			nickname = rs.getString("nickname");
-    		}
-    		ResultSet rs2 = st.executeQuery("select * from users where username ='"+username+"'");
-    		String passwd = null;
-    		if(rs2.next()){
-    			passwd = rs2.getString("passwd");
+    			passwd = rs.getString("passwd");
     		}
     		ct.close();
     		

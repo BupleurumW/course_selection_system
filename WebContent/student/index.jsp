@@ -42,8 +42,6 @@
     		String dept = null;
     		String sex = null;
     		String age = null;
-    		String in_year = null;
-    		String birth = null;
     		String sno = null;
     		String cno = null;
     		if(rs.next()){
@@ -52,8 +50,6 @@
     			cno = rs.getString("cno");
     			sex = rs.getString("sex");
     			age = rs.getString("age");
-    			in_year = rs.getString("in_year");
-    			birth = rs.getString("birth");
     		}
     		ct.close();
     	  %>
@@ -96,7 +92,7 @@
                 <table class="table">
                   <tbody>
                     <tr>
-                      <td><div class="circle green-bg"></div></td>
+                      <td><div class="circle yellow-bg"></div></td>
                       <td>性别</td>
                       <td><%= sex %></td>                    
                     </tr> 
@@ -111,20 +107,10 @@
                       <td><%= username  %></td>                    
                     </tr> 
                     <tr>
-                      <td><div class="circle green-bg"></div></td>
+                      <td><div class="circle blue-bg"></div></td>
                       <td>班号</td>
                       <td><%= cno %></td>                    
-                    </tr> 
-                    <tr>
-                      <td><div class="circle blue-bg"></div></td>
-                      <td>入学年份</td>
-                      <td><%= in_year %></td>                    
-                    </tr>  
-                    <tr>
-                      <td><div class="circle yellow-bg"></div></td>
-                      <td>出生年月</td>
-                      <td><%= birth %></td>                    
-                    </tr>                                      
+                    </tr>                                     
                   </tbody>
                 </table>
               </div>             

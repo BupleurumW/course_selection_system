@@ -31,13 +31,10 @@
     		Statement st = ct.createStatement();
     		ResultSet rs = st.executeQuery("select * from info where username ='"+username+"'");
     		String nickname = null;
+    		String passwd = null;
     		if(rs.next()){
     			nickname = rs.getString("nickname");
-    		}
-    		ResultSet rs2 = st.executeQuery("select * from users where username ='"+username+"'");
-    		String passwd = null;
-    		if(rs2.next()){
-    			passwd = rs2.getString("passwd");
+    			passwd = rs.getString("passwd");
     		}
     		ct.close();
     		
@@ -75,7 +72,7 @@
         <div class="templatemo-content-container">
           <div class="templatemo-content-widget white-bg">
             <h2 class="margin-bottom-10">欢迎</h2>
-            <p>Here goes another form and form controls.</p>
+            <p>Here goes to revise your information.</p>
             <form action="update.jsp" name="myform" class="templatemo-login-form" method="post">
               <div class="row form-group">
                 <div class="col-lg-6 col-md-6 form-group">                  

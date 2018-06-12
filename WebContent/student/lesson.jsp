@@ -41,12 +41,10 @@
     		String nickname = null;
     		String dept = null;
     		int age;
-    		String in_year = null;
     		if(rs.next()){
     			nickname = rs.getString("nickname");
     			dept = rs.getString("dept");
     			age = Integer.parseInt(rs.getString("age"));
-    			in_year = rs.getString("in_year");
     		}
     		ct.close();
     	  %>

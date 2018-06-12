@@ -17,8 +17,6 @@
     String sex = new String(request.getParameter("sex").getBytes("ISO-8859-1"),"UTF-8");
     String age = request.getParameter("age");
     String dept = new String(request.getParameter("dept").getBytes("ISO-8859-1"),"UTF-8");
-    String in_year = request.getParameter("in_year");
-    String birth = request.getParameter("birth");
     String grade = request.getParameter("grade");
     String add = request.getParameter("add");
     int addflag;
@@ -32,14 +30,12 @@
     Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson?characterEncoding=UTF-8","root","");      
     Statement st = ct.createStatement();
     if(addflag == 1){
-    	int addCount = st.executeUpdate("insert into info values('"+stu_no+"','"+nickname+"','"+cno+"','"
-    									+sex+"','"+age+"','"+dept+"','"+in_year+"','"+birth+"','"+grade+"')");
-    	addCount += st.executeUpdate("insert into users values('"+stu_no+"','"+"1"+"','"+grade+"')");
+    	int addCount = st.executeUpdate("insert into info values('"+stu_no+"','1','"+nickname+"','"+cno+"','"
+    									+sex+"','"+age+"','"+dept+"','"+grade+"')");
 		response.sendRedirect("index.jsp?updateCount="+addCount);
     }else{
     	int updateCount = st.executeUpdate("update info set nickname='"+nickname+"',cno='"+cno+
-				"',sex='"+sex+"',age='"+age+"',dept='"+dept+"',in_year='"+in_year+
-				"',birth='"+birth+"',grade='"+grade+"' where username='"+stu_no+"'");
+				"',sex='"+sex+"',age='"+age+"',dept='"+dept+"',grade='"+grade+"' where username='"+stu_no+"'");
 		response.sendRedirect("index.jsp?updateCount="+updateCount);
     }
     ct.close();

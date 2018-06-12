@@ -39,8 +39,6 @@
   			String dept = null;
   			String sex = null;
   			String age = null;
-  			String in_year = null;
-  			String birth = null;
   			String cno = null;
   			String grade = null;
   			if(rs.next()){
@@ -49,8 +47,6 @@
   				cno = rs.getString("cno");
   				sex = rs.getString("sex");
   				age = rs.getString("age");
-  				in_year = rs.getString("in_year");
-  				birth = rs.getString("birth");
   				grade = rs.getString("grade");
   			}
   			ct.close();
@@ -102,14 +98,6 @@
                       <input type="text" class="form-control" name="dept" value="<%= dept %>">                                 
                     </div>
                     <div class="form-group">                      
-                      <label>入学年份</label>
-                      <input type="text" class="form-control" name="in_year" value="<%= in_year %>">                                 
-                    </div>
-                    <div class="form-group">                      
-                      <label>出生日期</label>
-                      <input type="text" class="form-control" name="birth" value="<%= birth %>">                                 
-                    </div>
-                    <div class="form-group">                      
                       <label>用户等级</label>
                       <input type="text" class="form-control" name="grade" value="<%= grade %>">                                 
                     </div>
@@ -138,10 +126,6 @@
 				alert("学生年龄不能为空！");
 			}else if(document.myform.dept.value == ""){
 				alert("学生所在院系不能为空！");
-			}else if(document.myform.in_year.value == ""){
-				alert("学生入学年份不能为空！");
-			}else if(document.myform.birth.value == ""){
-				alert("学生出生日期不能为空！");
 			}else if(document.myform.grade.value == ""){
 				alert("学生用户等级不能为空！");
 			}else{

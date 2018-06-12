@@ -20,15 +20,12 @@
     Class.forName("com.mysql.jdbc.Driver");    
     Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson?characterEncoding=UTF-8","root","");      
     Statement st = ct.createStatement();
-    ResultSet rs = st.executeQuery("select passwd from users where username ='"+u+"'");
+    ResultSet rs = st.executeQuery("select passwd from info where username ='"+u+"'");
     if(rs.next()){
     	out.print(rs.getString("passwd"));
     	out.print(oldPwd);
     	if(rs.getString("passwd").equals(oldPwd)){
-//     			st = ct.createStatement();
-    	    	st.executeUpdate("update users set passwd=N'"+newPwd+"' where username ='"+u+"'");
-//     	    	st = ct.createStatement();
-    	    	st.executeUpdate("update info set nickname=N'"+nickname+"' where username ='"+u+"'");
+    	    	st.executeUpdate("update info set nickname=N'"+nickname+"',passwd=N'"+newPwd+"' where username ='"+u+"'");
     			response.sendRedirect("index.jsp?update_info=1");	
     	}else{
     		response.sendRedirect("reviseInfo.jsp?error=1");

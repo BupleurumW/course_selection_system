@@ -30,31 +30,26 @@
     		Statement st = ct.createStatement();
     		ResultSet rs = st.executeQuery("select * from info where username ='"+username+"'");
     		String nickname = null;
-    		String dept = null;
-    		int age;
-    		String in_year = null;
+//     		String dept = null;
+//     		int age;
     		if(rs.next()){
     			nickname = rs.getString("nickname");
-    			dept = rs.getString("dept");
-    			age = Integer.parseInt(rs.getString("age"));
-    			in_year = rs.getString("in_year");
+//     			dept = rs.getString("dept");
+//     			age = Integer.parseInt(rs.getString("age"));
     		}
     		ct.close();
 //       	String searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
-      		request.setCharacterEncoding("UTF-8");
-			String searchInput = request.getParameter("searchInput");
-      		out.print(searchInput);
-      		if(searchInput != null){
-      			searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
-      			session.setAttribute("searchInput", searchInput);
-//       			out.print("searchInput:"+searchInput);
-      			if(searchInput == ""){
-      				out.print("no result");
-      				response.sendRedirect("choose.jsp");
-      			}
-      		}else{
-      			response.sendRedirect("choose.jsp");
-      		}
+//       		request.setCharacterEncoding("UTF-8");
+// 			String searchInput = request.getParameter("searchInput");
+//       		if(searchInput != null){
+//       			searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
+//       			if(searchInput == ""){
+//       				out.print("no result");
+//       				response.sendRedirect("choose.jsp");
+//       			}
+//       		}else{
+//       			response.sendRedirect("choose.jsp");
+//       		}
     	  %>
           <h1>欢迎<%= nickname %></h1>
         </header>
@@ -73,22 +68,46 @@
       </div>
       <!-- Main content --> 
       <div class="templatemo-content col-1 light-gray-bg">
-      	<form class="templatemo-search-form" action="searchCourse.jsp">
-          <div class="input-group">
-              <button type="submit" class="fa fa-search"></button>
-              <input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">           
-          </div>
+      	<div class="templatemo-content-widget white-bg">
+        <form name="myform2" action="searchCourse.jsp">
+        	<input type="hidden" name="search_flag" id="sf" value="">
+        	<input type="text" class="form-control" placeholder="搜索课程" name="searchInput" id="srch-term">
+        <div text-align="left">
+          	<ul class="search_tab">
+  				<li><button type="submit" class="templatemo-edit-btn" id="CNo" onClick="searchStu(this)">按课程号搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="CName" onClick="searchStu(this)">按课程名搜索</button></li>
+			</ul>
+        </div> 
         </form>
+        </div>
       <%
       	//定义分页变量
       	int pageSize = 8,pageNow = 1,pageCount = 0,rowCount = 0;
       	Class.forName("com.mysql.jdbc.Driver");
       	ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson?useUnicode=true&characterEncoding=UTF-8","root","");
       	st = ct.createStatement();
-      	rs = st.executeQuery("select count(*) from lesson where lessonNo not in "+
-					"(select lessonNo from sc where username='"+username+
-					"') and lessonName like '%"+searchInput+"%'" 
-					+" limit "+pageSize*(pageNow-1)+","+pageSize);
+      	String search_flag = request.getParameter("search_flag");
+      	String searchInput = null;
+		if(search_flag != null){
+			searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
+// 			out.print(searchInput);
+			if(searchInput != null){
+				if(search_flag.equals("1")){
+					rs = st.executeQuery("select count(*) from lesson where lessonNo not in "+
+							"(select lessonNo from sc where username='"+username+
+							"') and lessonNo like '%"+searchInput+"%'" 
+							+" limit "+pageSize*(pageNow-1)+","+pageSize);
+				}else if(search_flag.equals("2")){
+					rs = st.executeQuery("select count(*) from lesson where lessonNo not in "+
+							"(select lessonNo from sc where username='"+username+
+							"') and lessonName like '%"+searchInput+"%'" 
+							+" limit "+pageSize*(pageNow-1)+","+pageSize);
+				}
+			}
+			
+		}else{
+			response.sendRedirect("lesson.jsp");
+		}
       	if(rs.next()){
       		rowCount = rs.getInt(1);
       	}
@@ -150,12 +169,25 @@
                 </thead>
                 <tbody>
                 <%
-            		rs = st.executeQuery("select * from lesson where lessonNo not in "+
-            	  						"(select lessonNo from sc where username='"+username+
-            	  						"') and lessonName like '%"+searchInput+"%'" 
-            	  						+" limit "+pageSize*(pageNow-1)+","+pageSize);
-//                 	rs = st.executeQuery("select * from lesson where lessonNo not in (select lessonNo from sc where username='123') and lessonName like '%事%'");
-//                 	out.print(rs.next());
+                	if(search_flag != null){
+        				searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
+//         				out.print(searchInput);
+        				if(searchInput != null){
+        					if(search_flag.equals("1")){
+        						rs = st.executeQuery("select * from lesson where lessonNo not in "+
+        								"(select lessonNo from sc where username='"+username+
+        								"') and lessonNo like '%"+searchInput+"%'" 
+        								+" limit "+pageSize*(pageNow-1)+","+pageSize);
+        					}else if(search_flag.equals("2")){
+        						rs = st.executeQuery("select * from lesson where lessonNo not in "+
+        								"(select lessonNo from sc where username='"+username+
+        								"') and lessonName like '%"+searchInput+"%'" 
+        								+" limit "+pageSize*(pageNow-1)+","+pageSize);
+        					}
+        				}
+        			}else{
+        				response.sendRedirect("lesson.jsp");
+        			}
           			int i = 1; 
         			while(rs.next()){
         			%>
@@ -180,19 +212,19 @@
           </div>    
           <div class="pagination-wrap">
           	<ul class="pagination">
-              <li><a href="searchCourse.jsp?start=1&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>">首页</a></li>
-              <li><a href="searchCourse.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>">◀</a></li>
+              <li><a href="searchCourse.jsp?start=1&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">首页</a></li>
+              <li><a href="searchCourse.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">◀</a></li>
            	  <%
            	  	int j; 
            	  	for(j=start;j<=end;j++){
            	  		if(j == pageNow){
            	  			%>
-           	  			<li class="active"><a href="searchCourse.jsp?pageNow=<%= j %>&searchInput=<%= searchInput %>"><%= j %><span class="sr-only">(current)</span></a></li>
+           	  			<li class="active"><a href="searchCourse.jsp?pageNow=<%= j %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>"><%= j %><span class="sr-only">(current)</span></a></li>
            	  			<%
            	  		}
            	  		else{
            	  			%>
-       	  				<li><a href="searchCourse.jsp?pageNow=<%= j %>&start=<%= start %>&searchInput=<%= searchInput %>"><%= j %></a></li>
+       	  				<li><a href="searchCourse.jsp?pageNow=<%= j %>&start=<%= start %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>"><%= j %></a></li>
        	  				<%
            	  		}
            	  	}
@@ -202,8 +234,8 @@
               	if(pageCount < 5)	temp = 1;
               	else temp = pageCount-4;
               %>
-              <li><a href="searchCourse.jsp?start=<%= start+1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>">▶</a></li>
-              <li><a href="searchCourse.jsp?start=<%= temp %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>">末页</a></li>
+              <li><a href="searchCourse.jsp?start=<%= start+1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">▶</a></li>
+              <li><a href="searchCourse.jsp?start=<%= temp %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">末页</a></li>
             </ul>
           </div>          
         </div>
@@ -216,7 +248,7 @@
     		var all=document.getElementById('all');//获取到点击全选的那个复选框的id  
     		var one=document.getElementsByName('checklist');//获取到复选框的名称  
     		for(var i=0;i<one.length;i++){  
-    			one[i].checked=all.checked; //直接赋值不就行了嘛  
+    			one[i].checked=all.checked; 
     		}  
     	}  
     	function submitCourse(){
@@ -235,6 +267,16 @@
     			alert("至少选一门课后再提交选课！");
     		}
     	}
+    	function searchStu(obj){
+			 if(obj.id=='CNo') {
+				 document.getElementById("sf").value = "1";
+				   alert(document.myform.search_flag.value);
+				   document.myform2.submit();
+			 }else if(obj.id=='CName'){
+				 document.getElementById("sf").value = "2";
+				 document.myform2.submit();
+			 }  
+		}
     </script>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->
     <script type="text/javascript" src="js/templatemo-script.js"></script>      <!-- Templatemo Script -->
