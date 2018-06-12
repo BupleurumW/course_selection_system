@@ -151,6 +151,9 @@
                     <td>No.</td>
                     <td><a href="" class="white-text templatemo-sort-by">学号<span class="caret"></span></a></td>
                     <td><a href="" class="white-text templatemo-sort-by">姓名<span class="caret"></span></a></td>
+                    <td><a href="" class="white-text templatemo-sort-by">性别<span class="caret"></span></a></td>
+                    <td><a href="" class="white-text templatemo-sort-by">年龄<span class="caret"></span></a></td>
+                    <td><a href="" class="white-text templatemo-sort-by">院系<span class="caret"></span></a></td>
                     <td></td>
                     <td></td>
                   </tr>
@@ -165,6 +168,9 @@
            			<td><%= i++ %></td>
            			<td><%= rs.getString("username") %></td>
            			<td><%= rs.getString("nickname") %></td>
+           			<td><%= rs.getString("sex") %></td>
+           			<td><%= rs.getString("age") %></td>
+           			<td><%= rs.getString("dept") %></td>
            			<td><a href="revise_stu.jsp?stu_no=<%= rs.getString("username") %>" class="templatemo-edit-btn" >修改</a></td>
            			<td><a href="delete_stu.jsp?stu_no=<%= rs.getString("username") %>" onClick="return confirm('确定删除该学生所有信息(包括课程)？');" class="templatemo-edit-btn" >删除</a></td>
        				</tr>
@@ -179,6 +185,8 @@
           </div>    
           <div class="pagination-wrap">
           	<ul class="pagination">
+          	  <input type="text" class="form-control" placeholder="请输入要跳转的页面"> 
+              <li><a href="index.jsp?pageNow=<%= pageNow %>">goto</a></li>
               <li><a href="index.jsp?start=1&pageNow=<%= pageNow %>">首页</a></li>
               <li><a href="index.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>">◀</a></li>
            	  <%

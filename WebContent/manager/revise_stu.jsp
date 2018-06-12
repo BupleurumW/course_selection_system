@@ -39,12 +39,10 @@
   			String dept = null;
   			String sex = null;
   			String age = null;
-  			String cno = null;
   			String grade = null;
   			if(rs.next()){
   				nickname = rs.getString("nickname");
   				dept = rs.getString("dept");
-  				cno = rs.getString("cno");
   				sex = rs.getString("sex");
   				age = rs.getString("age");
   				grade = rs.getString("grade");
@@ -82,10 +80,6 @@
                       <input type="text" class="form-control" name="nickname" value="<%= nickname %>">
                       </div>
                     <div class="form-group">                      
-                      <label>班号</label>
-                      <input type="text" class="form-control" name="cno" value="<%= cno %>">                                 
-                    </div>
-                    <div class="form-group">                      
                       <label>性别</label>
                       <input type="text" class="form-control" name="sex" value="<%= sex %>">                                 
                     </div>
@@ -118,8 +112,6 @@
 				alert("学生学号不能为空！");
 			}else if(document.myform.nickname.value == ""){
 				alert("学生姓名不能为空！");
-			}else if(document.myform.cno.value == ""){
-				alert("学生班号不能为空！");
 			}else if(document.myform.sex.value == ""){
 				alert("学生性别不能为空！");
 			}else if(document.myform.age.value == ""){

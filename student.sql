@@ -3,29 +3,11 @@ SET AUTOCOMMIT = 0;
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-DROP TABLE IF EXISTS `users`;
-/*
-CREATE TABLE IF NOT EXISTS `users` (
-  `username` char(10) NOT NULL PRIMARY KEY,
-  `passwd` char(20) NOT NULL,
-  `grade` char(2)
-) ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
-
-INSERT INTO `users` (username,passwd,grade) VALUES
-('admin','1',1),
-('121610203','1',5),
-('131020133','1',5),
-('110940125','1',5),
-('140730422','1',5),
-('110650109','1',5),
-('161540104','1',5);
-*/
 DROP TABLE IF EXISTS `info`;
 CREATE TABLE IF NOT EXISTS `info` (
   `username` char(10) NOT NULL PRIMARY KEY,
   `passwd` char(20) NOT NULL,
   `nickname` char(20) NOT NULL,
-  `cno` char(8),
   `sex` char(2),
   `age` char(3),
   `dept` char(20),
@@ -34,16 +16,16 @@ CREATE TABLE IF NOT EXISTS `info` (
 /*air:航空学院 energy：能源 auto：自动化 electron：电子 machine：机械 material：材料 civil_aviation:民航 math：理学院 economy：经济 
 humanity：人文 foreign：外国语 computer：计算机*/
 INSERT INTO `info` VALUES
-('admin','1','admin','','','40','academic','1'),
-('121610203','1','李勇','1216102','男','24','computer','5'),
-('131020133','1','刘晨','1310201','女','23','humanity','5'),
-('110940125','1','王敏','1109401','女','25','economy','5'),
-('140730422','1','张立','1407304','男','22','civil_aviation','5'),
-('110650109','1','张兰心','1106501','女','25','material','5'),
-('161540104','1','吴雨亭','1615401','女','21','computer','5'),
-('161540105','1','霍晓湘','1615403','女','21','computer','5'),
-('161540201','1','王亚欣','1615402','女','21','computer','5'),
-('161540106','1','欧莉盼','1615403','女','21','computer','5');
+('admin','1','admin','','40','academic','1'),
+('121610203','1','李勇','男','24','computer','5'),
+('131020133','1','刘晨','女','23','humanity','5'),
+('110940125','1','王敏','女','25','economy','5'),
+('140730422','1','张立','男','22','civil_aviation','5'),
+('110650109','1','张兰心','女','25','material','5'),
+('161540104','1','吴雨亭','女','21','computer','5'),
+('161540105','1','霍晓湘','女','21','computer','5'),
+('161540201','1','王亚欣','女','21','computer','5'),
+('161540106','1','欧莉盼','女','21','computer','5');
 
 DROP TABLE IF EXISTS `lesson`;
 CREATE TABLE IF NOT EXISTS `lesson` (

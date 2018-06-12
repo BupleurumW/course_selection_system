@@ -58,10 +58,6 @@
                       <input type="text" class="form-control" name="nickname">
                       </div>
                     <div class="form-group">                      
-                      <label>班号</label>
-                      <input type="text" class="form-control" name="cno">                                 
-                    </div>
-                    <div class="form-group">                      
                       <label>性别</label>
                       <input type="text" class="form-control" name="sex">                                 
                     </div>
@@ -94,8 +90,6 @@
 				alert("学生学号不能为空！");
 			}else if(document.myform.nickname.value == ""){
 				alert("学生姓名不能为空！");
-			}else if(document.myform.cno.value == ""){
-				alert("学生班号不能为空！");
 			}else if(document.myform.sex.value == ""){
 				alert("学生性别不能为空！");
 			}else if(document.myform.age.value == ""){

@@ -209,19 +209,19 @@
           </div>    
           <div class="pagination-wrap">
           	<ul class="pagination">
-              <li><a href="index.jsp?start=1&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">首页</a></li>
-              <li><a href="index.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>">◀</a></li>
+              <li><a href="search_stu.jsp?start=1&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">首页</a></li>
+              <li><a href="search_stu.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">◀</a></li>
            	  <%
            	  	int j; 
            	  	for(j=start;j<=end;j++){
            	  		if(j == pageNow){
            	  			%>
-           	  			<li class="active"><a href="index.jsp?pageNow=<%= j %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>"><%= j %><span class="sr-only">(current)</span></a></li>
+           	  			<li class="active"><a href="search_stu.jsp?pageNow=<%= j %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>"><%= j %><span class="sr-only">(current)</span></a></li>
            	  			<%
            	  		}
            	  		else{
            	  			%>
-       	  				<li><a href="index.jsp?pageNow=<%= j %>&start=<%= start %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>"><%= j %></a></li>
+       	  				<li><a href="search_stu.jsp?pageNow=<%= j %>&start=<%= start %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>"><%= j %></a></li>
        	  				<%
            	  		}
            	  	}
@@ -231,8 +231,8 @@
               	if(pageCount < 5)	temp = 1;
               	else temp = pageCount-4;
               %>
-              <li><a href="index.jsp?start=<%= start+1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">▶</a></li>
-              <li><a href="index.jsp?start=<%= temp %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">末页</a></li>
+              <li><a href="search_stu.jsp?start=<%= start+1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">▶</a></li>
+              <li><a href="search_stu.jsp?start=<%= temp %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">末页</a></li>
             </ul>
           </div>          
         </div>

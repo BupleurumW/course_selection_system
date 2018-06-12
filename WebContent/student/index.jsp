@@ -43,11 +43,9 @@
     		String sex = null;
     		String age = null;
     		String sno = null;
-    		String cno = null;
     		if(rs.next()){
     			nickname = rs.getString("nickname");
     			dept = rs.getString("dept");
-    			cno = rs.getString("cno");
     			sex = rs.getString("sex");
     			age = rs.getString("age");
     		}
@@ -97,6 +95,11 @@
                       <td><%= sex %></td>                    
                     </tr> 
                     <tr>
+                      <td><div class="circle blue-bg"></div></td>
+                      <td>年龄</td>
+                      <td><%= age  %></td>                    
+                    </tr>  
+                    <tr>
                       <td><div class="circle pink-bg"></div></td>
                       <td>所在院系</td>
                       <td><%= dept %></td>                    
@@ -105,12 +108,7 @@
                       <td><div class="circle orange-bg"></div></td>
                       <td>学号</td>
                       <td><%= username  %></td>                    
-                    </tr> 
-                    <tr>
-                      <td><div class="circle blue-bg"></div></td>
-                      <td>班号</td>
-                      <td><%= cno %></td>                    
-                    </tr>                                     
+                    </tr>                                 
                   </tbody>
                 </table>
               </div>             
