@@ -22,8 +22,7 @@
     if(rs.next()){
     	if(rs.getString("passwd").equals(p)){
     			session.setAttribute("username", u);
-    			int i = Integer.parseInt(rs.getString("grade"));
-    			if(i == 1){
+    			if(rs.getString("grade").equals("1")){
     				response.sendRedirect("manager/index.jsp");
     			}else{
     				response.sendRedirect("student/index.jsp");	

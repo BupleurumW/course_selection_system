@@ -81,7 +81,7 @@
       <div class="templatemo-content col-1 light-gray-bg">
       <%
       	//定义分页变量
-      	int pageSize = 8,pageNow = 1,pageCount = 0,rowCount = 0;
+      	int pageSize = 20,pageNow = 1,pageCount = 0,rowCount = 0;
       	Class.forName("com.mysql.jdbc.Driver");
       	ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");
       	st = ct.createStatement();
