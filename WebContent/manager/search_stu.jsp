@@ -68,7 +68,7 @@
           </div>
         <nav class="templatemo-left-nav">          
           <ul>
-            <li><a href="#" class="active"><i class="fa fa-home fa-fw"></i>管理学生信息</a></li>
+            <li><a href="index.jsp" class="active"><i class="fa fa-home fa-fw"></i>管理学生信息</a></li>
             <li><a href="course.jsp"><i class="fa fa-bar-chart fa-fw"></i>管理课程信息</a></li>
             <li><a href="reviseInfo.jsp"><i class="fa fa-users fa-fw"></i>修改信息</a></li>
             <li><a href="../login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
@@ -166,6 +166,9 @@
                     <td>No.</td>
                     <td><a href="" class="white-text templatemo-sort-by">学号<span class="caret"></span></a></td>
                     <td><a href="" class="white-text templatemo-sort-by">姓名<span class="caret"></span></a></td>
+                    <td><a href="" class="white-text templatemo-sort-by">性别<span class="caret"></span></a></td>
+                    <td><a href="" class="white-text templatemo-sort-by">年龄<span class="caret"></span></a></td>
+                    <td><a href="" class="white-text templatemo-sort-by">院系<span class="caret"></span></a></td>
                     <td></td>
                     <td></td>
                   </tr>
@@ -195,6 +198,9 @@
            			<td><%= i++ %></td>
            			<td><%= rs.getString("username") %></td>
            			<td><%= rs.getString("nickname") %></td>
+           			<td><%= rs.getString("sex") %></td>
+           			<td><%= rs.getString("age") %></td>
+           			<td><%= rs.getString("dept") %></td>
            			<td><a href="revise_stu.jsp?stu_no=<%= rs.getString("username") %>" class="templatemo-edit-btn" >修改</a></td>
            			<td><a href="delete_stu.jsp?stu_no=<%= rs.getString("username") %>" onClick="return confirm('确定删除该学生所有信息(包括课程)？');" class="templatemo-edit-btn" >删除</a></td>
        				</tr>
@@ -209,6 +215,8 @@
           </div>    
           <div class="pagination-wrap">
           	<ul class="pagination">
+          	  <input type="text" id="pageNow" class="form-control" placeholder="请输入要跳转的页面"> 
+              <li><a href="javascript:jump()">goto</a></li>
               <li><a href="search_stu.jsp?start=1&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">首页</a></li>
               <li><a href="search_stu.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">◀</a></li>
            	  <%
@@ -252,7 +260,16 @@
 				 document.getElementById("sf").value = "2";
 				 document.myform.submit();
 			 }  
-		}
+			}
+			
+			function jump(){
+				var pageNow = document.getElementById("pageNow").value;
+				if(pageNow == ''){
+					alert("请输入要跳转的页面！");
+				}else{
+					location.href="search_stu.jsp?pageNow="+pageNow+"&start="+pageNow+"&searchInput="+"<%= searchInput %>"+"&search_flag="+<%= search_flag %> ;
+				}
+			}
 			
 		</script>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->

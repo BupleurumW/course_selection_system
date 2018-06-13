@@ -73,9 +73,10 @@
       	String search_flag = request.getParameter("search_flag");
       	String searchInput = null;
 		if(search_flag != null){
-			searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
+			searchInput = request.getParameter("searchInput");
 // 			out.print(searchInput);
 			if(searchInput != null){
+				searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
 				if(search_flag.equals("1")){
 					rs = st.executeQuery("select count(*) from lesson where lessonNo like '%"
 											+searchInput+"%'");
@@ -83,6 +84,8 @@
 					rs = st.executeQuery("select count(*) from lesson where lessonName like '%"
 							+searchInput+"%'");
 				}
+			}else{
+				response.sendRedirect("course.jsp");
 			}
 			
 		}else{
@@ -160,9 +163,10 @@
                 <tbody>
                 <%
         			if(search_flag != null){
-        				searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
+        				searchInput =request.getParameter("searchInput");
 //         				out.print(searchInput);
         				if(searchInput != null){
+        					searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
         					if(search_flag.equals("1")){
         						rs = st.executeQuery("select * from lesson where lessonNo like '%"
         											+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
@@ -170,6 +174,8 @@
         						rs = st.executeQuery("select * from lesson where lessonName like '%"
         							+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
         					}
+        				}else{
+        					response.sendRedirect("course.jsp");
         				}
         			}else{
         				response.sendRedirect("course.jsp");
@@ -197,6 +203,8 @@
           </div>    
           <div class="pagination-wrap">
           	<ul class="pagination">
+          	  <input type="text" id="pageNow" class="form-control" placeholder="请输入要跳转的页面"> 
+              <li><a href="javascript:jump()">goto</a></li>
               <li><a href="search_c.jsp?start=1&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">首页</a></li>
               <li><a href="search_c.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">◀</a></li>
            	  <%
@@ -234,12 +242,20 @@
 			function searchStu(obj){
 			 if(obj.id=='CNo') {
 				 document.getElementById("sf").value = "1";
-				   alert(document.myform.search_flag.value);
 				   document.myform.submit();
 			 }else if(obj.id=='CName'){
 				 document.getElementById("sf").value = "2";
 				 document.myform.submit();
 			 }  
+			}
+			
+			function jump(){
+				var pageNow = document.getElementById("pageNow").value;
+				if(pageNow == ''){
+					alert("请输入要跳转的页面！");
+				}else{
+					location.href="search_c.jsp?pageNow="+pageNow+"&start="+pageNow+"&searchInput="+"<%= searchInput %>"+"&search_flag="+<%= search_flag %> ;
+				}
 			}
 			
 		</script>

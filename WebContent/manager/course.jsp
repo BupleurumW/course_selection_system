@@ -164,6 +164,8 @@
           </div>    
           <div class="pagination-wrap">
           	<ul class="pagination">
+          	  <input type="text" id="pageNow" class="form-control" placeholder="请输入要跳转的页面"> 
+              <li><a href="javascript:jump()">goto</a></li>
               <li><a href="course.jsp?start=1&pageNow=<%= pageNow %>">首页</a></li>
               <li><a href="course.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>">◀</a></li>
            	  <%
@@ -206,7 +208,16 @@
 				 document.getElementById("sf").value = "2";
 				 document.myform.submit();
 			 }  
-		}
+			}
+			
+			function jump(){
+				var pageNow = document.getElementById("pageNow").value;
+				if(pageNow == ''){
+					alert("请输入要跳转的页面！");
+				}else{
+					location.href='course.jsp?pageNow='+pageNow+'&start='+pageNow;
+				}
+			}
 			
 		</script>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->
