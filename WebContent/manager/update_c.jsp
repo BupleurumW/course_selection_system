@@ -32,7 +32,7 @@
     if(addflag == 1){
     	int addCount = st.executeUpdate("insert into lesson values('"+lessonNo+"','"+lessonName+"',"+credit+")");
 //     	addCount += st.executeUpdate("insert into users values('"+stu_no+"','"+nickname+"','"+grade+"')");
-		response.sendRedirect("course.jsp?updateCount="+addCount);
+		response.sendRedirect("course.jsp?addCount="+addCount);
     }else{
     	int updateCount = st.executeUpdate("update lesson set lessonName='"+lessonName+"',credit="+credit+
     									" where lessonNo='"+lessonNo+"'");

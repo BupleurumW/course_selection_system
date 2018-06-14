@@ -32,7 +32,7 @@
     if(addflag == 1){
     	int addCount = st.executeUpdate("insert into info values('"+stu_no+"','1','"+nickname+"','"+sex+"','"+age+
     															"','"+dept+"','"+grade+"')");
-		response.sendRedirect("index.jsp?updateCount="+addCount);
+		response.sendRedirect("index.jsp?addCount="+addCount);
     }else{
     	int updateCount = st.executeUpdate("update info set nickname='"+nickname+"',sex='"+sex+"',age='"+age+
     							"',dept='"+dept+"',grade='"+grade+"' where username='"+stu_no+"'");

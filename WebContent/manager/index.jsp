@@ -50,6 +50,14 @@
 					out.print("<script>alert('修改学生信息失败！');</script>");
 				}
 			}
+			String deleteCount = request.getParameter("deleteCount");
+			if(deleteCount != null){
+				if(!deleteCount.equals("0")){
+					out.print("<script>alert('删除学生信息成功！');</script>");
+				}else{
+					out.print("<script>alert('删除学生信息失败！');</script>");
+				}
+			}
           	String username = (String)session.getAttribute("username");
     		Class.forName("com.mysql.jdbc.Driver");    
     		Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");      
@@ -133,9 +141,41 @@
           	<ul class="search_tab">
   				<li><button type="submit" class="templatemo-edit-btn" id="SNo" onClick="searchStu(this)">按学号搜索</button></li>
   				<li><button type="submit" class="templatemo-edit-btn" id="SName" onClick="searchStu(this)">按姓名搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="SSex" onClick="searchStu(this)">按性别搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="SAge" onClick="searchStu(this)">按年龄搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="SDept" onClick="searchStu(this)">按院系搜索</button></li>
 			</ul>
         </div> 
         </form>
+  		</div>
+  		<div class="templatemo-content-widget white-bg">
+          <form name="selectForm" action="search_stu.jsp">
+          <h2 class="margin-bottom-10">多功能查询：</h2>
+          <div>
+          	<p>性别：</p>
+  			<select>
+            	<option value="male">男</option>
+                <option value="female">女</option>                      
+            </select>
+          </div>
+          <div>
+          	<p>院系：</p>
+  			<select>
+            	<option value="air">air</option>
+                <option value="energy">energy</option>
+                <option value="auto">auto</option>
+                <option value="electron">electron</option>
+                <option value="machine">machine</option>
+                <option value="material">material</option>
+                <option value="civil_aviation">civil_aviation</option>
+                <option value="math">math</option>
+                <option value="economy">economy</option>  
+                <option value="humanity">humanity</option>
+                <option value="foreign">foreign</option>
+                <option value="computer">computer</option>                    
+            </select>
+          </div>
+          </form>
   		</div>
       	<div class="templatemo-content-widget white-bg">
             <h2 class="margin-bottom-10">是否增加学生的信息</h2>
@@ -229,7 +269,18 @@
 				 }else if(obj.id=='SName'){
 					 document.getElementById("sf").value = "2";
 					 document.myform.submit();
-				 }  
+				 }else if(obj.id=='SSex'){
+					 document.getElementById("sf").value = "3";
+					 document.myform.submit();
+				 }
+				 else if(obj.id=='SAge'){
+					 document.getElementById("sf").value = "4";
+					 document.myform.submit();
+				 }
+				 else if(obj.id=='SDept'){
+					 document.getElementById("sf").value = "5";
+					 document.myform.submit();
+				 }
 			}
 			
 			function jump(){

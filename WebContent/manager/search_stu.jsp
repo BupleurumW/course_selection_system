@@ -95,6 +95,17 @@
 				}else if(search_flag.equals("2")){
 					rs = st.executeQuery("select count(*) from info where grade <> 1 and nickname like '%"
 							+searchInput+"%'");
+				}else if(search_flag.equals("3")){
+					rs = st.executeQuery("select count(*) from info where grade <> 1 and sex like '%"
+							+searchInput+"%'");
+				}
+				else if(search_flag.equals("4")){
+					rs = st.executeQuery("select count(*) from info where grade <> 1 and age like '%"
+							+searchInput+"%'");
+				}
+				else if(search_flag.equals("5")){
+					rs = st.executeQuery("select count(*) from info where grade <> 1 and dept like '%"
+							+searchInput+"%'");
 				}
 			}
 			
@@ -148,6 +159,9 @@
           	<ul class="search_tab">
   				<li><button type="submit" class="templatemo-edit-btn" id="SNo" onClick="searchStu(this)">按学号搜索</button></li>
   				<li><button type="submit" class="templatemo-edit-btn" id="SName" onClick="searchStu(this)">按姓名搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="SSex" onClick="searchStu(this)">按性别搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="SAge" onClick="searchStu(this)">按年龄搜索</button></li>
+  				<li><button type="submit" class="templatemo-edit-btn" id="SDept" onClick="searchStu(this)">按院系搜索</button></li>
 			</ul>
         </div> 
         </form>
@@ -184,7 +198,16 @@
             				}else if(search_flag.equals("2")){
             					rs = st.executeQuery("select * from info where grade <> 1 and nickname like '%"
             										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
-            				}
+            				}else if(search_flag.equals("3")){
+            					rs = st.executeQuery("select * from info where grade <> 1 and sex like '%"
+										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
+							}else if(search_flag.equals("4")){
+            					rs = st.executeQuery("select * from info where grade <> 1 and age like '%"
+										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
+							}else if(search_flag.equals("5")){
+            					rs = st.executeQuery("select * from info where grade <> 1 and dept like '%"
+										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
+							}
                			}
         				
         			}else{
@@ -259,7 +282,18 @@
 			 }else if(obj.id=='SName'){
 				 document.getElementById("sf").value = "2";
 				 document.myform.submit();
-			 }  
+			 }else if(obj.id=='SSex'){
+				 document.getElementById("sf").value = "3";
+				 document.myform.submit();
+			 }
+			 else if(obj.id=='SAge'){
+				 document.getElementById("sf").value = "4";
+				 document.myform.submit();
+			 }
+			 else if(obj.id=='SDept'){
+				 document.getElementById("sf").value = "5";
+				 document.myform.submit();
+			 }
 			}
 			
 			function jump(){
