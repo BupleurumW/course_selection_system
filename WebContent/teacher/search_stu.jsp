@@ -50,24 +50,14 @@
 					out.print("<script>alert('修改学生信息失败！');</script>");
 				}
 			}
-			String deleteCount = request.getParameter("deleteCount");
-			if(deleteCount != null){
-				if(!deleteCount.equals("0")){
-					out.print("<script>alert('删除学生信息成功！');</script>");
-				}else{
-					out.print("<script>alert('删除学生信息失败！');</script>");
-				}
-			}
           	String username = (String)session.getAttribute("username");
     		Class.forName("com.mysql.jdbc.Driver");    
     		Connection ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");      
     		Statement st = ct.createStatement();
     		ResultSet rs = st.executeQuery("select * from info where username ='"+username+"'");
     		String nickname = null;
-    		String dept = null;
     		if(rs.next()){
     			nickname = rs.getString("nickname");
-    			dept = rs.getString("dept");
     		}
     		ct.close();
     	  %>
@@ -78,7 +68,7 @@
           </div>
         <nav class="templatemo-left-nav">          
           <ul>
-            <li><a href="#" class="active"><i class="fa fa-home fa-fw"></i>管理学生信息</a></li>
+            <li><a href="index.jsp" class="active"><i class="fa fa-home fa-fw"></i>管理学生信息</a></li>
             <li><a href="course.jsp"><i class="fa fa-bar-chart fa-fw"></i>管理课程信息</a></li>
             <li><a href="reviseInfo.jsp"><i class="fa fa-users fa-fw"></i>修改信息</a></li>
             <li><a href="../login.jsp" onclick="return confirm('确认注销？');"><i class="fa fa-eject fa-fw"></i>注销</a></li>
@@ -91,10 +81,38 @@
       	//定义分页变量
       	int pageSize = 20,pageNow = 1,pageCount = 0,rowCount = 0;
       	Class.forName("com.mysql.jdbc.Driver");
-      	ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson","root","");
+      	ct = DriverManager.getConnection("jdbc:mysql://localhost:3306/chooseLesson?characterEncoding=UTF-8","root","");
       	st = ct.createStatement();
-      	rs = st.executeQuery("select count(*) from info where grade <> 1 and grade <> 2 limit "+pageSize*(pageNow-1)+","+pageSize);
-      	if(rs.next()){
+      	String search_flag = request.getParameter("search_flag");
+      	String searchInput = null;
+		if(search_flag != null){
+			searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
+// 			out.print(searchInput);
+			if(searchInput != null){
+				if(search_flag.equals("1")){
+					rs = st.executeQuery("select count(*) from info where grade <> 1 and username like '%"
+											+searchInput+"%'");
+				}else if(search_flag.equals("2")){
+					rs = st.executeQuery("select count(*) from info where grade <> 1 and nickname like '%"
+							+searchInput+"%'");
+				}else if(search_flag.equals("3")){
+					rs = st.executeQuery("select count(*) from info where grade <> 1 and sex like '%"
+							+searchInput+"%'");
+				}
+				else if(search_flag.equals("4")){
+					rs = st.executeQuery("select count(*) from info where grade <> 1 and age like '%"
+							+searchInput+"%'");
+				}
+				else if(search_flag.equals("5")){
+					rs = st.executeQuery("select count(*) from info where grade <> 1 and dept like '%"
+							+searchInput+"%'");
+				}
+			}
+			
+		}else{
+			response.sendRedirect("index.jsp");
+		}
+		if(rs.next()){
       		rowCount = rs.getInt(1);
       	}
       	if(rowCount%pageSize == 0){
@@ -148,39 +166,10 @@
         </div> 
         </form>
   		</div>
-<!--   		<div class="templatemo-content-widget white-bg"> -->
-<!--           <form name="selectForm" action="search_stu.jsp"> -->
-<!--           <h2 class="margin-bottom-10">多功能查询：</h2> -->
-<!--           <div> -->
-<!--           	<p>性别：</p> -->
-<!--   			<select> -->
-<!--             	<option value="male">男</option> -->
-<!--                 <option value="female">女</option>                       -->
-<!--             </select> -->
-<!--           </div> -->
-<!--           <div> -->
-<!--           	<p>院系：</p> -->
-<!--   			<select> -->
-<!--             	<option value="air">air</option> -->
-<!--                 <option value="energy">energy</option> -->
-<!--                 <option value="auto">auto</option> -->
-<!--                 <option value="electron">electron</option> -->
-<!--                 <option value="machine">machine</option> -->
-<!--                 <option value="material">material</option> -->
-<!--                 <option value="civil_aviation">civil_aviation</option> -->
-<!--                 <option value="math">math</option> -->
-<!--                 <option value="economy">economy</option>   -->
-<!--                 <option value="humanity">humanity</option> -->
-<!--                 <option value="foreign">foreign</option> -->
-<!--                 <option value="computer">computer</option>                     -->
-<!--             </select> -->
-<!--           </div> -->
-<!--           </form> -->
-<!--   		</div> -->
-      	<div class="templatemo-content-widget white-bg">
-            <h2 class="margin-bottom-10">是否增加学生的信息</h2>
-           	<p class="margin-bottom-0">Yes goes to <a href="add_stu.jsp?add=1">add student</a>.</p>              
-      	</div>
+<!--       	<div class="templatemo-content-widget white-bg"> -->
+<!--             <h2 class="margin-bottom-10">是否增加学生的信息</h2> -->
+<!--            	<p class="margin-bottom-0">Yes goes to <a href="add_stu.jsp?add=1">add student</a>.</p>               -->
+<!--       	</div> -->
         <div class="templatemo-content-container">
           <div class="templatemo-content-widget no-padding">
             <div class="panel panel-default table-responsive">
@@ -200,7 +189,31 @@
                 </thead>
                 <tbody>
                 <%
-            		rs = st.executeQuery("select * from info where grade <> 1 limit "+pageSize*(pageNow-1)+","+pageSize);
+               		if(search_flag != null){
+               			searchInput = new String(request.getParameter("searchInput").getBytes("ISO-8859-1"),"UTF-8");
+               			if(searchInput != null){
+               				if(search_flag.equals("1")){
+            					rs = st.executeQuery("select * from info where grade <> 1 and username like '%"
+            										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
+            				}else if(search_flag.equals("2")){
+            					rs = st.executeQuery("select * from info where grade <> 1 and nickname like '%"
+            										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
+            				}else if(search_flag.equals("3")){
+            					rs = st.executeQuery("select * from info where grade <> 1 and sex like '%"
+										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
+							}else if(search_flag.equals("4")){
+            					rs = st.executeQuery("select * from info where grade <> 1 and age like '%"
+										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
+							}else if(search_flag.equals("5")){
+            					rs = st.executeQuery("select * from info where grade <> 1 and dept like '%"
+										+searchInput+"%' limit "+pageSize*(pageNow-1)+","+pageSize);
+							}
+               			}
+        				
+        			}else{
+        				response.sendRedirect("index.jsp");
+        			}
+//             		rs = st.executeQuery("select * from info where grade <> 1 limit "+pageSize*(pageNow-1)+","+pageSize);
           			int i = 1; 
         			while(rs.next()){
         			%>
@@ -227,19 +240,19 @@
           	<ul class="pagination">
           	  <input type="text" id="pageNow" class="form-control" placeholder="请输入要跳转的页面"> 
               <li><a href="javascript:jump()">goto</a></li>
-              <li><a href="index.jsp?start=1&pageNow=<%= pageNow %>">首页</a></li>
-              <li><a href="index.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>">◀</a></li>
+              <li><a href="search_stu.jsp?start=1&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">首页</a></li>
+              <li><a href="search_stu.jsp?start=<%= start-1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">◀</a></li>
            	  <%
            	  	int j; 
            	  	for(j=start;j<=end;j++){
            	  		if(j == pageNow){
            	  			%>
-           	  			<li class="active"><a href="index.jsp?pageNow=<%= j %>"><%= j %><span class="sr-only">(current)</span></a></li>
+           	  			<li class="active"><a href="search_stu.jsp?pageNow=<%= j %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>"><%= j %><span class="sr-only">(current)</span></a></li>
            	  			<%
            	  		}
            	  		else{
            	  			%>
-       	  				<li><a href="index.jsp?pageNow=<%= j %>&start=<%= start %>"><%= j %></a></li>
+       	  				<li><a href="search_stu.jsp?pageNow=<%= j %>&start=<%= start %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>"><%= j %></a></li>
        	  				<%
            	  		}
            	  	}
@@ -249,8 +262,8 @@
               	if(pageCount < 5)	temp = 1;
               	else temp = pageCount-4;
               %>
-              <li><a href="index.jsp?start=<%= start+1 %>&pageNow=<%= pageNow %>">▶</a></li>
-              <li><a href="index.jsp?start=<%= temp %>&pageNow=<%= pageNow %>">末页</a></li>
+              <li><a href="search_stu.jsp?start=<%= start+1 %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">▶</a></li>
+              <li><a href="search_stu.jsp?start=<%= temp %>&pageNow=<%= pageNow %>&searchInput=<%= searchInput %>&search_flag=<%= search_flag %>">末页</a></li>
             </ul>
           </div>          
         </div>
@@ -262,25 +275,25 @@
 		<script type="text/javascript">
 			
 			function searchStu(obj){
-				 if(obj.id=='SNo') {
-					 document.getElementById("sf").value = "1";
-					   alert(document.myform.search_flag.value);
-					   document.myform.submit();
-				 }else if(obj.id=='SName'){
-					 document.getElementById("sf").value = "2";
-					 document.myform.submit();
-				 }else if(obj.id=='SSex'){
-					 document.getElementById("sf").value = "3";
-					 document.myform.submit();
-				 }
-				 else if(obj.id=='SAge'){
-					 document.getElementById("sf").value = "4";
-					 document.myform.submit();
-				 }
-				 else if(obj.id=='SDept'){
-					 document.getElementById("sf").value = "5";
-					 document.myform.submit();
-				 }
+			 if(obj.id=='SNo') {
+				 document.getElementById("sf").value = "1";
+				   alert(document.myform.search_flag.value);
+				   document.myform.submit();
+			 }else if(obj.id=='SName'){
+				 document.getElementById("sf").value = "2";
+				 document.myform.submit();
+			 }else if(obj.id=='SSex'){
+				 document.getElementById("sf").value = "3";
+				 document.myform.submit();
+			 }
+			 else if(obj.id=='SAge'){
+				 document.getElementById("sf").value = "4";
+				 document.myform.submit();
+			 }
+			 else if(obj.id=='SDept'){
+				 document.getElementById("sf").value = "5";
+				 document.myform.submit();
+			 }
 			}
 			
 			function jump(){
@@ -288,9 +301,10 @@
 				if(pageNow == ''){
 					alert("请输入要跳转的页面！");
 				}else{
-					location.href='index.jsp?pageNow='+pageNow+'&start='+pageNow;
+					location.href="search_stu.jsp?pageNow="+pageNow+"&start="+pageNow+"&searchInput="+"<%= searchInput %>"+"&search_flag="+<%= search_flag %> ;
 				}
 			}
+			
 		</script>
     <script type="text/javascript" src="js/jquery-1.11.2.min.js"></script>      <!-- jQuery -->
     <script type="text/javascript" src="js/templatemo-script.js"></script>      <!-- Templatemo Script -->

@@ -24,6 +24,8 @@
     			session.setAttribute("username", u);
     			if(rs.getString("grade").equals("1")){
     				response.sendRedirect("manager/index.jsp");
+    			}else if(rs.getString("grade").equals("2")){
+    				response.sendRedirect("teacher/course.jsp");	
     			}else{
     				response.sendRedirect("student/index.jsp");	
     			}	

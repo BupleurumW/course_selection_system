@@ -150,11 +150,9 @@ INSERT INTO `SC` VALUES
 ('110650109','01104980',65),
 ('110650109','16101290',68);
 
-DROP TABLE IF EXISTS `droped_course`;
-CREATE TABLE IF NOT EXISTS `droped_course`(
-    `username` char(10),
-    `lessonNo` char(10),
-    PRIMARY KEY (username,lessonNo),
-    FOREIGN KEY(username) REFERENCES users(username),
-    FOREIGN KEY(lessonNo) REFERENCES lesson(lessonNo)
+
+DROP TABLE IF EXISTS `teacher`;
+CREATE TABLE IF NOT EXISTS `teacher`(
+    `username` char(10) PRIMARY KEY,
+    `lessonNo` char(10) PRIMARY KEY
 )ENGINE=MyISAM AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;

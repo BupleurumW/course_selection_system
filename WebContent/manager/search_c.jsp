@@ -158,6 +158,7 @@
                     <td><a href="" class="white-text templatemo-sort-by">课程学分<span class="caret"></span></a></td>
                     <td></td>
                     <td></td>
+                    <td></td>
                   </tr>
                 </thead>
                 <tbody>
@@ -191,6 +192,7 @@
            			<td><%= rs.getString("credit") %></td>
            			<td><a href="revise_c.jsp?lessonNo=<%= rs.getString("lessonNo") %>" class="templatemo-edit-btn" >修改</a></td>
            			<td><a href="delete_c.jsp?lessonNo=<%= rs.getString("lessonNo") %>" onClick="return confirm('确定删除该课程(包括选该课的所有成绩信息)?');" class="templatemo-edit-btn" >删除</a></td>
+           			<td><a href="choose_detail.jsp?lessonNo=<%= rs.getString("lessonNo") %>" class="templatemo-edit-btn" >选课详情</a></td>
        				</tr>
         			<%
         		  }
